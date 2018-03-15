@@ -24,6 +24,9 @@ console.debug('当前的打包类型:' + serverType)
 let user_env = ''
 
 switch (serverType) {
+  case 'local':
+    user_env = require('../config/api/local')
+    break
   case 'prod':
     user_env = require('../config/api/prod')
     break
