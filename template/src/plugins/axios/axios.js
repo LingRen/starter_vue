@@ -29,14 +29,15 @@ const codeMessage = {
   504: '网关超时'
 }
 
-const toastMessage = (res, defaultMessage) => {
-  if (!res.config.noToast) {
-    Toast({
-      type: {{#if_eq device "pc"}}'error'{{/if_eq}}{{#if_eq device "mobile"}}'fail'{{/if_eq}},
-      message: res.message || res.data.message || defaultMessage || codeMessage[response.status] || '未知错误',
-      duration: 3500
-    })
+const toastMessage = (res) => {
+  if (res.config && res.configcustomMessage) {
+    return
   }
+  Toast({
+    type: {{#if_eq device "pc"}}'error'{{/if_eq}}{{#if_eq device "mobile"}}'fail'{{/if_eq}},
+    message: res.message || res.data.message || codeMessage[res.status] || '未知错误',
+    duration: 3500
+  })
 }
 
 axios.interceptors.request.use(function (config) {
@@ -52,7 +53,7 @@ axios.interceptors.request.use(function (config) {
 })
 
 axios.interceptors.response.use(function (response) {
-  if (response.data.success) {
+  if (response.data.success !== false) {
     return response.data
   }
 
