@@ -4,6 +4,8 @@
 
 const path = require('path')
 
+let subDir = `{{ name }}/${process.env.ServerType}/${new Date().getTime()}`
+
 module.exports = {
   dev: {
 
@@ -54,12 +56,15 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
-
-    // Paths
-    assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    entries: {
+      main: {
+        filename: path.resolve(__dirname, `../dist/${subDir}/haha.html`),
+        template: 'index.html'
+      }
+    },
+    assetsRoot: path.resolve(__dirname, `../dist`),
+    assetsSubDirectory: `${subDir}/`,
+    assetsPublicPath: 'https://css.didano.cn/',
 
     /**
      * Source Maps

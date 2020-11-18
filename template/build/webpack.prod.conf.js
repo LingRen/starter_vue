@@ -11,9 +11,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-const env = {{#if_or unit}}process.env.NODE_ENV === 'testing'
+const env = {{#unit}}process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
-  : {{/if_or}}require('../config/prod.env')
+  : {{/unit}}require('../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -151,10 +151,10 @@ const entries = Object.keys(utils.getEntries('./src/entry/**/*.js', './src/entry
 entries.forEach(function (pathname) {
   console.error(pathname)
   var conf = {
-    filename: config.dev.entries[pathname].filename ?
-      config.dev.entries[pathname].filename : pathname + '.html',
-    template: config.dev.entries[pathname].filename ?
-      config.dev.entries[pathname].filename : 'index.html',
+    filename: config.build.entries[pathname].filename ?
+      config.build.entries[pathname].filename : pathname + '.html',
+    template: config.build.entries[pathname].filename ?
+      config.build.entries[pathname].filename : 'index.html',
     inject: true,
     minify: {
       removeComments: true,

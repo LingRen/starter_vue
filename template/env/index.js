@@ -1,17 +1,17 @@
 const serverType = process.env.SERVER_TYPE
 
-let user_env = ''
+let userEnv = ''
 
 switch (serverType) {
   case 'test':
-    user_env = require('./test')
+    userEnv = require('./test')
     break
   case 'prod':
-    user_env = require('./prod')
+    userEnv = require('./prod')
     break
   default:
-    user_env = require('./local')
+    userEnv = require('./local')
     break
 }
 
-export default user_env
+module.exports = userEnv

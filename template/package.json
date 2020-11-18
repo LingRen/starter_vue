@@ -13,14 +13,14 @@
     {{#if_eq runner "karma"}}
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     {{/if_eq}}
-    {{#if_or unit}}
-    "test": "{{#unit}}npm run unit{{/unit}}",
-    {{/if_or}}
+    {{#unit}}
+    "test": "npm run unit",
+    {{/unit}}
     {{#lint}}
     "lint": "eslint --ext .js,.vue src{{#unit}} test/unit{{/unit}}",
     {{/lint}}
     "build:test": "cross-env ServerType=test node build/build.js",
-    "build:prod": "cross-env ServerType=prod node build/build.js",
+    "build:prod": "cross-env ServerType=prod node build/build.js"
   },
   "dependencies": {
     "vue": "^2.5.2",
@@ -30,9 +30,13 @@
     {{#if_eq device "pc"}}
     "element-ui": "^2.12.0",
     "downloadjs": "^1.4.7",
+    "crypto-js": "^4.0.0",
+    "crypto1": "^1.0.0",
     {{/if_eq}}
     {{#if_eq device "mobile"}}
+    {{#if_eq px "rem"}}
     "lib-flexible": "^0.3.2",
+    {{/if_eq}}
     "weixin-js-sdk": "^1.6.0",
     "vant": "^2.6.0",
     {{/if_eq}}
@@ -44,11 +48,9 @@
     "dayjs": "^1.8.27",
     "lodash": "^4.17.15",
     "clipboard": "^2.0.4",
-    "crypto-js": "^4.0.0",
-    "crypto1": "^1.0.0",
     "axios": "^0.18.0",
     "nuo-access-vue": "git+ssh://git@gitee.com/didano/nuo-access-vue.git",
-    "ling-oss-upload": "^2.2.0",
+    "ling-oss-upload": "^2.2.0"
   },
   "devDependencies": {
     {{#lint}}
@@ -98,12 +100,18 @@
     "phantomjs-prebuilt": "^2.1.14",
     {{/if_eq}}
     {{#if_eq device "mobile"}}
-    "postcss-px2rem-exclude": "^0.0.6",
+    {{#if_eq px "rem"}}
+    "postcss-pxtorem": "^5.1.1",
+    {{/if_eq}}
+    {{#if_eq px "vw"}}
+    "postcss-px-to-viewport": "^1.1.1",
+    {{/if_eq}}
     {{/if_eq}}
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-loader": "^7.1.1",
+    "babel-plugin-import": "^1.13.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-runtime": "^6.22.0",
     "babel-plugin-transform-vue-jsx": "^3.5.0",
@@ -119,6 +127,7 @@
     "html-webpack-plugin": "^2.30.1",
     "webpack-bundle-analyzer": "^2.9.0",
     "node-notifier": "^5.1.2",
+    "node-sass": "^4.14.1",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.8",
     "postcss-url": "^7.2.1",

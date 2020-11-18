@@ -11,7 +11,31 @@ const pkg = require('./package.json')
 
 const templateVersion = pkg.version
 
+const scenarios = [
+  'full', 
+  'full-karma-airbnb', 
+  'minimal'
+]
+
+const index = scenarios.indexOf(process.env.VUE_TEMPL_TEST)
+
+const isTest = exports.isTest = index !== -1
+
+const scenario = isTest && require(`./${scenarios[index]}.json`)
+
+const addTestAnswers = (metalsmith, options, helpers) => {
+  Object.assign(
+    metalsmith.metadata(),
+    { isNotTest: !isTest },
+    isTest ? scenario : {}
+  )
+}
+
 module.exports = {
+  metalsmith: {
+    // When running tests for the template, this adds answers for the selected scenario
+    before: addTestAnswers
+  },
   helpers: {
     if_or(v1, v2, options) {
 
@@ -118,6 +142,23 @@ module.exports = {
         }
       ],
     },
+    px: {
+      when: 'isNotTest && device === "mobile"',
+      type: 'list',
+      message: 'Pick an unit to change px?',
+      choices: [
+        {
+          name: 'Yes, px to rem',
+          value: 'rem',
+          short: 'rem',
+        },
+        {
+          name: 'Yes, px to vw',
+          value: 'vw',
+          short: 'vw',
+        }
+      ],
+    },
     unit: {
       when: 'isNotTest',
       type: 'confirm',
@@ -181,6 +222,10 @@ module.exports = {
     'test/unit/specs/index.js': "unit && runner === 'karma'",
     'test/unit/setup.js': "unit && runner === 'jest'",
     'src/router/**/*': 'router',
+    'src/store/**/*': 'store',
+    'src/utils/cookie.js': 'device === "pc"',
+    'src/plugins/download/*': 'device === "pc"',
+    'src/plugins/wechat/*': 'device === "mobile"',
   },
   complete: function(data, { chalk }) {
     const green = chalk.green

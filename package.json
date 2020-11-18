@@ -1,0 +1,19 @@
+{
+  "name": "starter_vue",
+  "version": "1.0.0",
+  "description": "vue 项目初始化",
+  "main": "meta.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitee.com:ling_ren/starter_vue.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vue-cli": "^2.9.6"
+  }
+}

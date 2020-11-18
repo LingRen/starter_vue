@@ -21,12 +21,11 @@ npm run build --report
 # run unit tests
 npm run unit
 {{/unit}}
-
-{{#if_or unit}}
+{{#unit}}
 
 # run all tests
 npm test
-{{/if_or}}
+{{/unit}}
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
