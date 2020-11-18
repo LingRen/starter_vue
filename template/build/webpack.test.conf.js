@@ -6,22 +6,6 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 
-const serverType = process.env.SERVER_TYPE
-
-let user_env = ''
-
-switch (serverType) {
-  case 'test':
-    user_env = require('../config/api/test')
-    break
-  case 'prod':
-    user_env = require('../config/api/prod')
-    break
-  default:
-    user_env = require('../config/api/local')
-    break
-}
-
 const webpackConfig = merge(baseWebpackConfig, {
   // use inline sourcemap for karma-sourcemap-loader
   module: {
@@ -38,7 +22,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': require('../config/test.env'),
-      ...user_env
+      ...require('../env')
     })
   ]
 })

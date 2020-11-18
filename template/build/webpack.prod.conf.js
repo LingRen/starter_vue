@@ -11,30 +11,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-const argv = process.argv.slice(2)
-
-const env = process.env.NODE_ENV === 'testing' ?
-  require('../config/test.env') :
-  require('../config/prod.env')
-
-const serverType = process.env.SERVER_TYPE
-
-console.debug('当前的打包类型:' + serverType)
-
-let user_env = ''
-
-switch (serverType) {
-  case 'local':
-    user_env = require('../config/api/local')
-    break
-  case 'prod':
-    user_env = require('../config/api/prod')
-    break
-  default:
-    user_env = require('../config/api/test')
-    break
-}
-
+const env = {{#if_or unit}}process.env.NODE_ENV === 'testing'
+  ? require('../config/test.env')
+  : {{/if_or}}require('../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -54,7 +33,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env,
-      ...user_env
+      ...require('../env')
     }),
     new UglifyJsPlugin({
       uglifyOptions: {
@@ -77,14 +56,9 @@ const webpackConfig = merge(baseWebpackConfig, {
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
     new OptimizeCSSPlugin({
-      cssProcessorOptions: config.build.productionSourceMap ? {
-        safe: true,
-        map: {
-          inline: false
-        }
-      } : {
-        safe: true
-      }
+      cssProcessorOptions: config.build.productionSourceMap
+        ? { safe: true, map: { inline: false } }
+        : { safe: true }
     }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
@@ -112,7 +86,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks(module) {
+      minChunks (module) {
         // any required modules inside node_modules are extracted to vendor
         return (
           module.resource &&
@@ -140,11 +114,13 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
 
     // copy custom static assets
-    new CopyWebpackPlugin([{
-      from: path.resolve(__dirname, '../static'),
-      to: config.build.assetsSubDirectory,
-      ignore: ['.*']
-    }])
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../static'),
+        to: config.build.assetsSubDirectory,
+        ignore: ['.*']
+      }
+    ])
   ]
 })
 
@@ -175,8 +151,7 @@ const entries = Object.keys(utils.getEntries('./src/entry/**/*.js', './src/entry
 entries.forEach(function (pathname) {
   console.error(pathname)
   var conf = {
-    filename: process.env.NODE_ENV === 'testing' ?
-      'index.html' : config.dev.entries[pathname].filename ?
+    filename: config.dev.entries[pathname].filename ?
       config.dev.entries[pathname].filename : pathname + '.html',
     template: config.dev.entries[pathname].filename ?
       config.dev.entries[pathname].filename : 'index.html',
