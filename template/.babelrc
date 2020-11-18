@@ -6,6 +6,7 @@
         "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
       }
     }],
+    {{#if_eq device "pc"}}["es2015", { "modules": false }],{{/if_eq}}
     "stage-2"
   ],
   "plugins": ["transform-vue-jsx", "transform-runtime"{{#if_eq device "pc"}},
