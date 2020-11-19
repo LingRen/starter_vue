@@ -29,8 +29,11 @@ const codeMessage = {
   504: '网关超时'
 }
 
+// TODO:还需要增加全局loading，{ loadingStatus, loadingCount }
+// TODO:增加取消请求操作，实现方案：全局cancel，局部自定义
+
 const toastMessage = (res) => {
-  if (res.config && res.configcustomMessage) {
+  if (res.config && res.config.customMessage) {
     return
   }
   Toast({
