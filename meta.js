@@ -11,23 +11,10 @@ const pkg = require('./package.json')
 
 const templateVersion = pkg.version
 
-const scenarios = [
-  'full', 
-  'full-karma-airbnb', 
-  'minimal'
-]
-
-const index = scenarios.indexOf(process.env.VUE_TEMPL_TEST)
-
-const isTest = exports.isTest = index !== -1
-
-const scenario = isTest && require(`./${scenarios[index]}.json`)
-
 const addTestAnswers = (metalsmith, options, helpers) => {
   Object.assign(
     metalsmith.metadata(),
-    { isNotTest: !isTest },
-    isTest ? scenario : {}
+    { isNotTest: true }
   )
 }
 
@@ -113,11 +100,6 @@ module.exports = {
           short: 'Standard',
         },
         {
-          name: 'Airbnb (https://github.com/airbnb/javascript)',
-          value: 'airbnb',
-          short: 'Airbnb',
-        },
-        {
           name: 'none (configure it yourself)',
           value: 'none',
           short: 'none',
@@ -158,6 +140,11 @@ module.exports = {
           short: 'vw',
         }
       ],
+    },
+    oss: {
+      when: 'isNotTest',
+      type: 'confirm',
+      message: 'use upload oss?',
     },
     unit: {
       when: 'isNotTest',
@@ -226,6 +213,7 @@ module.exports = {
     'src/utils/cookie.js': 'device === "pc"',
     'src/plugins/download/*': 'device === "pc"',
     'src/plugins/wechat/*': 'device === "mobile"',
+    'src/plugins/upload/*': 'oss',
   },
   complete: function(data, { chalk }) {
     const green = chalk.green
