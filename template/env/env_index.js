@@ -4,13 +4,13 @@ let userEnv = ''
 
 switch (serverType) {
   case 'test':
-    userEnv = require('./test')
+    userEnv = require('./env_test')
     break
   case 'prod':
-    userEnv = require('./prod')
+    userEnv = require('./env_prod')
     break
   default:
-    userEnv = require('./local')
+    userEnv = require('./env_local')
     break
 }
 
