@@ -32,7 +32,7 @@ allPlugins.map(val => {
 })
 
 {{#if_eq device "pc"}}
-import Element, {
+import {
   Loading,
   MessageBox,
   Message,
@@ -47,7 +47,6 @@ Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;
-Vue.use(Element)
 {{/if_eq}}
 {{#if_eq device "mobile"}}
 import {
