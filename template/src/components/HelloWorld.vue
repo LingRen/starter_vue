@@ -32,7 +32,7 @@ export default {
             console.log(parseInt((event.loaded / event.total) * 100) + '%')
           }
         })
-        this.imgUrl = data
+        this.imgUrl = data.data
       } catch (err) {
         console.log((err && err.message) || "Network Error")
       }
