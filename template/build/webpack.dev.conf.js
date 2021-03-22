@@ -74,8 +74,8 @@ entries.forEach(function (pathname) {
   let conf = {
     filename: config.dev.entries[pathname].filename ?
       config.dev.entries[pathname].filename : pathname + '.html',
-    template: config.dev.entries[pathname].filename ?
-      config.dev.entries[pathname].filename : 'index.html',
+    template: config.dev.entries[pathname].template ?
+      config.dev.entries[pathname].template : 'index.html',
     inject: true
   }
   if (pathname in baseWebpackConfig.entry) {
