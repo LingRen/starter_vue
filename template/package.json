@@ -30,8 +30,7 @@
     {{#if_eq device "pc"}}
     "element-ui": "^2.12.0",
     "downloadjs": "^1.4.7",
-    "crypto-js": "^4.0.0",
-    "crypto1": "^1.0.0",
+    "crypto-js": "^3.3.0",
     {{/if_eq}}
     {{#if_eq device "mobile"}}
     {{#if_eq px "rem"}}
