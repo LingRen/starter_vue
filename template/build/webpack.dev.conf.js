@@ -77,7 +77,8 @@ entries.forEach(function (pathname) {
       config.dev.entries[pathname].filename : pathname + '.html',
     template: config.dev.entries[pathname].template ?
       config.dev.entries[pathname].template : 'index.html',
-    inject: true
+    inject: true,
+    lingDev: true
   }
   if (pathname in baseWebpackConfig.entry) {
     conf.chunks = [pathname]
