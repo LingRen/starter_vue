@@ -7,8 +7,12 @@ import { Message as Toast } from 'element-ui'
 import { Toast } from 'vant'
 {{/if_eq}}
 
-axios.defaults.baseURL = WX_URL
-axios.defaults.headers.post['Content-Type'] = 'application/json'
+const instance = axios.create({
+  baseURL: WX_URL
+})
+
+instance.defaults.timeout = 2500;
+instance.defaults.headers.post['Content-Type'] = 'application/json'
 
 // 状态码错误信息
 const codeMessage = {
@@ -43,7 +47,7 @@ const toastMessage = (res) => {
   })
 }
 
-axios.interceptors.request.use(function (config) {
+instance.interceptors.request.use(function (config) {
   if (config.noCheck) {
     return config
   }
@@ -55,7 +59,7 @@ axios.interceptors.request.use(function (config) {
   return Promise.reject(error)
 })
 
-axios.interceptors.response.use(function (response) {
+instance.interceptors.response.use(function (response) {
   if (response.data.success !== false) {
     return response.data
   }
@@ -67,4 +71,4 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(response)
 })
 
-export default axios
+export default instance
