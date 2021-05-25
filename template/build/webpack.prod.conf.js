@@ -153,8 +153,8 @@ entries.forEach(function (pathname) {
   var conf = {
     filename: config.build.entries[pathname].filename ?
       config.build.entries[pathname].filename : pathname + '.html',
-    template: config.build.entries[pathname].filename ?
-      config.build.entries[pathname].filename : 'index.html',
+    template: config.build.entries[pathname].template ?
+      config.build.entries[pathname].template : 'index.html',
     inject: true,
     minify: {
       removeComments: true,
