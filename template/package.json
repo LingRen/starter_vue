@@ -6,12 +6,12 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "cross-env ServerType=local npm run dev",
+    "start": "cross-env SERVER_TYPE=local npm run dev",
     {{#if_eq runner "jest"}}
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     {{/if_eq}}
     {{#if_eq runner "karma"}}
-    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
+    "unit": "cross-env SERVER_TYPE=test BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     {{/if_eq}}
     {{#unit}}
     "test": "npm run unit",
@@ -19,8 +19,8 @@
     {{#lint}}
     "lint": "eslint --ext .js,.vue src{{#unit}} test/unit{{/unit}}",
     {{/lint}}
-    "build:test": "cross-env ServerType=test node build/build.js",
-    "build:prod": "cross-env ServerType=prod node build/build.js"
+    "build:test": "cross-env SERVER_TYPE=test node build/build.js",
+    "build:prod": "cross-env SERVER_TYPE=prod node build/build.js"
   },
   "dependencies": {
     "vue": "^2.5.2",
