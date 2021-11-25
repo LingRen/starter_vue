@@ -18,6 +18,7 @@
     {{/unit}}
     {{#lint}}
     "lint": "eslint --ext .js,.vue src{{#unit}} test/unit{{/unit}}",
+    "prettier": "prettier --write src/**/*{{#unit}} test/unit/**/*{{/unit}}",
     {{/lint}}
     "build:test": "cross-env SERVER_TYPE=test node build/build.js",
     "build:prod": "cross-env SERVER_TYPE=prod node build/build.js"
@@ -58,6 +59,11 @@
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.7.1",
     "eslint-plugin-vue": "^4.0.0",
+    "chalk": "^4.1.2",
+    "commitizen": "^4.2.4",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.4.0",
+    "yorkie": "^2.0.0",
     {{#if_eq lintConfig "standard"}}
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-promise": "^3.4.0",
@@ -147,6 +153,23 @@
     "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0"
   },
+  {{#lint}}
+  "gitHooks": {
+    "pre-commit": "lint-staged",
+    "commit-msg": "node verify-commit-msg.js"
+  },
+  "lint-staged": {
+    "src/**/*.{js,json,vue}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  },
+  {{/lint}}
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"

@@ -135,7 +135,7 @@ exports.getEntries = function (globPath, pathDir) {
     entries[basename] = [entry]
   }
 
-  const PAGES = process.env.PAGES.split(',')
+  const PAGES = (process.env.PAGES || '').split(',')
   let newEntries = {}
   PAGES.forEach(key => {
     const value = entries[key]
