@@ -17,6 +17,7 @@
     "test": "npm run unit",
     {{/unit}}
     {{#lint}}
+    "commit": "git cz",
     "lint": "eslint --ext .js,.vue src{{#unit}} test/unit{{/unit}}",
     "prettier": "prettier --write src/**/*{{#unit}} test/unit/**/*{{/unit}}",
     {{/lint}}
